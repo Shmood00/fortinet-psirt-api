@@ -3,7 +3,11 @@ from fastapi.middleware.cors import CORSMiddleware
 from packaging import version
 import json
 
-app = FastAPI()
+app = FastAPI(
+    title="Fortinet PSIRT Advisories",
+    description="This API was created to access Fortinet PSIRT advisories in JSON format.",
+    version="1.0.0"
+)
 
 f = open("combined-vulns.json")
 
@@ -30,6 +34,10 @@ def compare_versions(v1,v2):
 @app.get("/")
 async def root():
     return data
+
+@app.get("/healthcheck")
+async def health_check():
+    return {"status":"ok"}
 
 @app.get("/psirt/{psirt_id}")
 async def individual_psirt(psirt_id):
