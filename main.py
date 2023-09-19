@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from packaging import version
-import json
+import json, uvicorn
 
 app = FastAPI(
     title="Fortinet PSIRT Advisories",
@@ -71,3 +71,6 @@ async def find_vuln(os_type: str, os_version: str):
     
     matched_vulns["is_vulnerable"] = False
     return matched_vulns
+
+if __name__ == "__main__":
+    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
