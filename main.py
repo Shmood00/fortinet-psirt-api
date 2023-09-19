@@ -10,7 +10,7 @@ f = open("combined-vulns.json")
 data = json.load(f)
 
 origins = [
-    "*"
+    "https://heartfelt-treacle-bef921.netlify.app"
 ]
 
 app.add_middleware(
