@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from packaging import version
 import json
 
@@ -7,6 +8,18 @@ app = FastAPI()
 f = open("combined-vulns.json")
 
 data = json.load(f)
+
+origins = [
+    "https://heartfelt-treacle-bef921.netlify.app/"
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["GET"],
+    allow_headers=["*"]
+)
 
 def compare_versions(v1,v2):
     if version.parse(v1) <= version.parse(v2):
