@@ -35,10 +35,6 @@ def compare_versions(v1,v2):
 async def root():
     return data
 
-@app.get("/healthcheck")
-async def health_check():
-    return {"status":"ok"}
-
 @app.get("/psirt/{psirt_id}")
 async def individual_psirt(psirt_id):
     for vuln in data:
