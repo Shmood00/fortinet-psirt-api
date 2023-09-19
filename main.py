@@ -48,7 +48,6 @@ async def find_vuln(os_type: str, os_version: str):
 
     for vuln in data:
         if os_type.lower() in vuln['title'].lower():
-            print(vuln['title'], vuln['id'])
 
             os_nodes_list = [node for item in vuln['vulnerabilities'][0]['definitions'][0]['configurations'] for node in item['nodes'] if os_type.lower() in node['description'].lower()]
 
