@@ -68,7 +68,7 @@ async def find_vuln(os_type: str, os_version: str):
 
                     if (compare_versions(ge, os_version) == -1 and compare_versions(os_version, le) == -1):
                         vuln_names.append(vuln['title'])
-                        matched_vulns[os_version] = vuln_names
+                        matched_vulns["vulnerabilities"] = vuln_names
                         matched_vulns["fixed_in"] = node['fixed_in']
                 except:
                     Exception
