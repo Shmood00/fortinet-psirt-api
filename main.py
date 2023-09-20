@@ -41,9 +41,10 @@ async def root():
     return data
 
 @app.get("/psirt/{psirt_id}", name="Individual PSIRT", summary="Returns information on requested PSIRT",
-         tags=["Individual PSIRT"],
-         response_description="Returns a dictionary containing information on requested PSIRT",
-         )
+        tags=["Individual PSIRT"],
+        response_description="Returns a dictionary containing information on requested PSIRT",
+        
+)
 async def individual_psirt(psirt_id):
     for vuln in data:
         if vuln['id'] == psirt_id:
@@ -51,7 +52,9 @@ async def individual_psirt(psirt_id):
 
 @app.get("/psirt/vulnerabilities/{os_type}", name="OS Version Affected", summary="Returns vulnerabilities the given OS and version are affected by.",
          tags=["Vulnerabilities"],
-         response_description="Returns a dictionary of vulnerabilities that impact the given OS and version type.")
+         response_description="Returns a dictionary of vulnerabilities that impact the given OS and version type.",
+         response_model=models.VersionAffected
+)
 async def find_vuln(os_type: str, os_version: str):
     matched_vulns = {}
     vuln_names = []
