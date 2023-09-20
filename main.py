@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import models
 from packaging import version
-from typing import List, Union
+from typing import List, Dict
 import json, uvicorn
 
 app = FastAPI(
@@ -36,7 +36,6 @@ def compare_versions(v1,v2):
 @app.get("/", name="All PSIRTs", summary="Returns all Fortinet PSIRTs published in 2023.",
         tags=["All Vulnerabilities"],
         response_description="Returns list of dictionaries containing PSIRT advisories posted so far in 2023.",
-        response_model=List[models.AllPSIRT]
 )
 async def root():
     return data
@@ -44,7 +43,7 @@ async def root():
 @app.get("/psirt/{psirt_id}", name="Individual PSIRT", summary="Returns information on requested PSIRT",
          tags=["Individual PSIRT"],
          response_description="Returns a dictionary containing information on requested PSIRT",
-         response_model=models.AllPSIRT)
+         )
 async def individual_psirt(psirt_id):
     for vuln in data:
         if vuln['id'] == psirt_id:
@@ -52,8 +51,7 @@ async def individual_psirt(psirt_id):
 
 @app.get("/psirt/vulnerabilities/{os_type}", name="OS Version Affected", summary="Returns vulnerabilities the given OS and version are affected by.",
          tags=["Vulnerabilities"],
-         response_description="Returns a dictionary of vulnerabilities that impact the given OS and version type.",
-         response_model=models.VersionAffected)
+         response_description="Returns a dictionary of vulnerabilities that impact the given OS and version type.")
 async def find_vuln(os_type: str, os_version: str):
     matched_vulns = {}
     vuln_names = []
