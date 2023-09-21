@@ -1,36 +1,41 @@
 from pydantic import BaseModel
-from typing import List, Dict
+from typing import List
 
-class CVVS3(BaseModel):
-    base_score: float
-    vector: str
 class Affected(BaseModel):
     ge: str
     le: str
 
-class SubNodes(BaseModel):
+class CVSSV3(BaseModel):
+    base_score: float
+    vector: str
+
+class NodeInfo(BaseModel):
     description: str
     cpe: str
     affected: Affected
     fixed_in: List[str]
 
-class Configurations(BaseModel):
-    nodes: List[SubNodes]
-    cvssv3: CVVS3
+class ConfigurationInfo(BaseModel):
+    nodes: List[NodeInfo]
+
+
+class DefinitionInfo(BaseModel):
+    configurations: List[ConfigurationInfo]
+    cvssv3: CVSSV3
     cwe: List[str]
     impact: str
 
-class Vulnerabilities(BaseModel):
+class VulnInfo(BaseModel):
     id: str
     cve: str
-    definitions: List[Configurations]
-    
+    definitions: List[DefinitionInfo]
+
 
 class PSIRT(BaseModel):
     id: str
     title: str
     summary: str
-    vulnerabilities: List[Vulnerabilities]
+    vulnerabilities: List[VulnInfo]
     published: str
     updated: str
     advisory_url: str
