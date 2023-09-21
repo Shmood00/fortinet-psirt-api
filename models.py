@@ -25,7 +25,7 @@ class DefinitionInfo(BaseModel):
     cvssv3: CVSSV3
     cwe: Optional[List[str]] = None
     impact: Optional[str] = None
-    #exploit_status: Optional[str] = None
+    exploit_status: Optional[str] = None
 
 class VulnInfo(BaseModel):
     id: str
