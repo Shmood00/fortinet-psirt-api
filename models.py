@@ -45,6 +45,6 @@ class PSIRT(BaseModel):
 
 """ Model for vulnerabilities affected by given OS and version """
 class VersionAffected(BaseModel):
-    vulnerabilities: List[str]
-    fixed_in: List[str]
+    vulnerabilities: Optional[List[str]] = None
+    fixed_in: Optional[List[str]] = None
     is_vulnerable: bool
