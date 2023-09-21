@@ -1,7 +1,8 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-import models
 from packaging import version
+from typing import List
+import models
 import json, uvicorn
 
 app = FastAPI(
@@ -35,6 +36,7 @@ def compare_versions(v1,v2):
 @app.get("/", name="All PSIRTs", summary="Returns all Fortinet PSIRTs published in 2023.",
         tags=["All Vulnerabilities"],
         response_description="Returns list of dictionaries containing PSIRT advisories posted so far in 2023.",
+        response_model=List[models.PSIRT]
 )
 async def root():
     return data
