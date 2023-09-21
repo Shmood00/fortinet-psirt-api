@@ -2,7 +2,6 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import models
 from packaging import version
-from typing import List, Dict
 import json, uvicorn
 
 app = FastAPI(
@@ -43,7 +42,7 @@ async def root():
 @app.get("/psirt/{psirt_id}", name="Individual PSIRT", summary="Returns information on requested PSIRT",
         tags=["Individual PSIRT"],
         response_description="Returns a dictionary containing information on requested PSIRT",
-        
+        response_model=models.PSIRT
 )
 async def individual_psirt(psirt_id):
     for vuln in data:
