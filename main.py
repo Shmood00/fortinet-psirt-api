@@ -59,24 +59,49 @@ async def individual_psirt(psirt_id):
 async def find_vuln(os_type: str, os_version: str):
     matched_vulns = {}
     vuln_names = []
-
-    for vuln in data:
-        if os_type.lower() in vuln['title'].lower():
-
-            os_nodes_list = [node for item in vuln['vulnerabilities'][0]['definitions'][0]['configurations'] for node in item['nodes'] if os_type.lower() in node['description'].lower()]
-
-            for node in os_nodes_list:
-                try:
-                    ge = node['affected']['ge']
-                    le = node['affected']['le']
-
-                    if (compare_versions(ge, os_version) == -1 and compare_versions(os_version, le) == -1):
-                        vuln_names.append(vuln['title'])
-                        matched_vulns["vulnerabilities"] = vuln_names
-                        matched_vulns["fixed_in"] = node['fixed_in']
-                except:
-                    Exception
+    cvssv3_dict = {}
+    low = []
+    medium = []
+    high = []
+    critical = []
     
+    vuln_data = [vuln for vuln in data if os_type.lower() in vuln['title'].lower()]
+    
+    for vuln in vuln_data:
+        for v in range(len(vuln['vulnerabilities'])):
+            for nodes in vuln['vulnerabilities'][v]['definitions'][0]['configurations']:
+
+                matched_node = [node for node in nodes['nodes'] if os_type.lower() in node['description'].lower()]
+                
+                for node in matched_node:
+                    try:
+                        ge = node['affected']['ge']
+                        le = node['affected']['le']
+
+                        cvssv3 = float(vuln['vulnerabilities'][v]['definitions'][0]['cvssv3']['base_score'])
+                    
+                        if cvssv3 >= 0.1 and cvssv3 <= 3.9:
+                            low.append(cvssv3)
+                            cvssv3_dict['low'] = low
+                        elif cvssv3 >= 4.0 and cvssv3 <= 6.9:
+                            medium.append(cvssv3)
+                            cvssv3_dict['medium'] = medium
+                        elif cvssv3 >= 7.0 and cvssv3 <= 8.9:
+                            high.append(cvssv3)
+                            cvssv3_dict['high'] = high
+                        elif cvssv3 >= 9.0 and cvssv3 <= 10.0:
+                            critical.append(cvssv3)
+                            cvssv3_dict['critical'] = critical 
+
+                        if (compare_versions(ge, os_version) == -1) and (compare_versions(os_version, le) == -1):
+                            vuln_names.append(vuln['title'])
+
+                            matched_vulns['vulnerabilities'] = vuln_names
+                            matched_vulns['fixed_in'] = node['fixed_in']
+                            matched_vulns['cvssv3_scores'] = cvssv3_dict
+                    except:
+                        Exception
+
     if matched_vulns:
         matched_vulns["is_vulnerable"] = True
 
