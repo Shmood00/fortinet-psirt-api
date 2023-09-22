@@ -48,11 +48,11 @@ class CVSSV3(BaseModel):
     low: Optional[List[float]] = None
     medium: Optional[List[float]] = None
     high: Optional[List[float]] = None
-    critcal: Optional[List[float]] = None
+    critical: Optional[List[float]] = None
 
 class VersionAffected(BaseModel):
     vulnerabilities: Optional[List[str]] = None
     fixed_in: Optional[List[str]] = None
     is_vulnerable: bool
-    cvssv3_scores: CVSSV3
+    cvssv3_scores: Optional[CVSSV3] = None
 
