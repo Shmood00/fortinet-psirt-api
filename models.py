@@ -44,7 +44,15 @@ class PSIRT(BaseModel):
 
 
 """ Model for vulnerabilities affected by given OS and version """
+class CVSSV3(BaseModel):
+    low: Optional[List[float]] = None
+    medium: Optional[List[float]] = None
+    high: Optional[List[float]] = None
+    critcal: Optional[List[float]] = None
+
 class VersionAffected(BaseModel):
     vulnerabilities: Optional[List[str]] = None
     fixed_in: Optional[List[str]] = None
     is_vulnerable: bool
+    cvssv3_scores: CVSSV3
+
