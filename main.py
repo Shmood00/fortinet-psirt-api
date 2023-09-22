@@ -77,27 +77,36 @@ async def find_vuln(os_type: str, os_version: str):
                     try:
                         ge = node['affected']['ge']
                         le = node['affected']['le']
-
-                        cvssv3 = float(vuln['vulnerabilities'][v]['definitions'][0]['cvssv3']['base_score'])
+                        
+                        if (compare_versions(ge, os_version) == -1) and (compare_versions(os_version, le) == -1):
+                            
+                            cvssv3 = float(vuln['vulnerabilities'][v]['definitions'][0]['cvssv3']['base_score'])
                     
-                        if cvssv3 >= 0.1 and cvssv3 <= 3.9:
-                            low.append(cvssv3)
+                            if cvssv3 >= 0.1 and cvssv3 <= 3.9:
+                                low.append(cvssv3)
+                                
+                            elif cvssv3 >= 4.0 and cvssv3 <= 6.9:
+                                
+                                medium.append(cvssv3)
+                                
+                            elif cvssv3 >= 7.0 and cvssv3 <= 8.9:
+                                
+                                high.append(cvssv3)
+                                
+                            elif cvssv3 >= 9.0 and cvssv3 <= 10.0:
+                                
+                                critical.append(cvssv3)
+                            
                             cvssv3_dict['low'] = low
-                        elif cvssv3 >= 4.0 and cvssv3 <= 6.9:
-                            medium.append(cvssv3)
                             cvssv3_dict['medium'] = medium
-                        elif cvssv3 >= 7.0 and cvssv3 <= 8.9:
-                            high.append(cvssv3)
                             cvssv3_dict['high'] = high
-                        elif cvssv3 >= 9.0 and cvssv3 <= 10.0:
-                            critical.append(cvssv3)
                             cvssv3_dict['critical'] = critical 
 
-                        if (compare_versions(ge, os_version) == -1) and (compare_versions(os_version, le) == -1):
                             vuln_names.append(vuln['title'])
 
                             matched_vulns['vulnerabilities'] = vuln_names
                             matched_vulns['fixed_in'] = node['fixed_in']
+
                             matched_vulns['cvssv3_scores'] = cvssv3_dict
                     except:
                         Exception
