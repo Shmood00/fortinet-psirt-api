@@ -52,7 +52,7 @@ class CVSSV3(BaseModel):
 
 class VersionAffected(BaseModel):
     vulnerabilities: Optional[List[str]] = None
-    fixed_in: Optional[List[str]] = None
+    fixed_in: Optional[List[List[str]]] = None
     is_vulnerable: bool
     cvssv3_scores: Optional[CVSSV3] = None
 
