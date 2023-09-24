@@ -85,19 +85,20 @@ async def find_vuln(os_type: str, os_version: str):
                             cvssv3 = float(vuln['vulnerabilities'][v]['definitions'][0]['cvssv3']['base_score'])
                     
                             if cvssv3 >= 0.1 and cvssv3 <= 3.9:
-                                low.append(cvssv3)
+                                vuln_names.append(vuln['title'])
+                                low.append([cvssv3, vuln_names.index(vuln['title'])])
                                 
                             elif cvssv3 >= 4.0 and cvssv3 <= 6.9:
-                                
-                                medium.append(cvssv3)
+                                vuln_names.append(vuln['title'])
+                                medium.append([cvssv3, vuln_names.index(vuln['title'])])
                                 
                             elif cvssv3 >= 7.0 and cvssv3 <= 8.9:
-                                
-                                high.append(cvssv3)
+                                vuln_names.append(vuln['title'])
+                                high.append([cvssv3, vuln_names.index(vuln['title'])])
                                 
                             elif cvssv3 >= 9.0 and cvssv3 <= 10.0:
-                                
-                                critical.append(cvssv3)
+                                vuln_names.append(vuln['title'])
+                                critical.append([cvssv3, vuln_names.index(vuln['title'])])
                             
                             
                             cvssv3_dict['low'] = low
@@ -105,7 +106,7 @@ async def find_vuln(os_type: str, os_version: str):
                             cvssv3_dict['high'] = high
                             cvssv3_dict['critical'] = critical 
 
-                            vuln_names.append(vuln['title'])
+                            #vuln_names.append(vuln['title'])
                             fixed_in.append(node['fixed_in'])
                             vuln_links.append(vuln['advisory_url'])
 
