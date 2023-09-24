@@ -64,6 +64,7 @@ async def find_vuln(os_type: str, os_version: str):
     medium = []
     high = []
     critical = []
+    fixed_in = []
     
     vuln_data = [vuln for vuln in data if os_type.lower() in vuln['title'].lower()]
     
@@ -103,11 +104,13 @@ async def find_vuln(os_type: str, os_version: str):
                             cvssv3_dict['critical'] = critical 
 
                             vuln_names.append(vuln['title'])
+                            fixed_in.append(node['fixed_in'])
 
                             matched_vulns['vulnerabilities'] = vuln_names
-                            matched_vulns['fixed_in'] = node['fixed_in']
+                            matched_vulns['fixed_in'] = fixed_in
 
                             matched_vulns['cvssv3_scores'] = cvssv3_dict
+                            
                     except:
                         Exception
 
