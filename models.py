@@ -46,10 +46,10 @@ class PSIRT(BaseModel):
 """ Model for vulnerabilities affected by given OS and version """
 class CVSSV3(BaseModel):
     """ Used to be just List[float] not List[List[float]] """
-    low: Optional[List[List[float]]] = None
-    medium: Optional[List[List[float]]] = None
-    high: Optional[List[List[float]]] = None
-    critical: Optional[List[List[float]]] = None
+    low: Optional[List[float]] = None
+    medium: Optional[List[float]] = None
+    high: Optional[List[float]] = None
+    critical: Optional[List[float]] = None
 
 class VersionAffected(BaseModel):
     vulnerabilities: Optional[List[str]] = None
